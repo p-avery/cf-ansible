@@ -1,0 +1,27 @@
+---
+- name: Demo playbook to setup linux VM from CF inventory
+  hosts: _managed_os_lx
+  tasks:
+  - name: create helloworld text file
+    file:
+      path: /tmp/helloworld
+      owner: foo
+      group: foo
+      mode: 0644
+      state: touch
+    
+- name: Demo playbook to install Apache on linux VM from CF inventory
+  hosts: _managed_lxapp_apache
+  tasks:
+  - name: Install Apache
+    yum:
+      name: httpd
+      state: present
+    notify: apache_service
+    
+  handlers:
+  - name: apache_service
+    service:
+      name: httpd
+      state: started
+      enabled: true
