@@ -5,12 +5,12 @@
     - satellite_client
     - common
 
-- name: register RedHat Insights
+- name: register to RedHat Insights
   hosts: _managed_insights_true
   roles:
     - insights
 
-- name: Apache
+- name: Install Apache
   hosts: _managed_lx_app_apache
   roles:
     - apache
