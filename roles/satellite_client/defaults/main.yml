@@ -1,0 +1,5 @@
+sat6_fqdn: satellite.example.com
+org: "Default_Organization"
+hostgroup: False
+updatehost: true
+activation_key: "Default_Key"
