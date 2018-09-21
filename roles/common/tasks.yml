@@ -1,0 +1,10 @@
+---
+- name: set SELINUX to permissive
+  selinux:
+    policy: targeted
+    state: permissive
+    
+- name: Create MOTD File
+  copy:
+    dest: /etc/motd
+    content: "CloudForms Approved MOTD!\n"
