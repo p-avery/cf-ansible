@@ -1,0 +1,27 @@
+---
+- name: install the latest satellite ca consumer cert
+  yum:
+    name: http://{{ sat6_fqdn }}/pub/katello-ca-consumer-latest.noarch.rpm
+    state: present
+    
+- name: Register with activationkey
+  redhat_subscription:
+    state: present
+    activationkey: "{{ activation_key }}"
+    org_id: "{{ org }}"
+  register: 'registered'
+
+- name: Install the katello-agent
+  yum:
+    name: katello-agent
+    state: latest
+  when: hostgroup|lower == 'false' and registered is succeeded
+  notify:
+    - Start katello-agent
+    - Enable katello-agent
+
+- name: Update the host to latest errata within the attached content view
+  yum:
+    name: '*'
+    state: latest
+  when: updatehost|lower == 'true'
