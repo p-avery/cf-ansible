@@ -5,8 +5,8 @@
   - name: create helloworld text file
     file:
       path: /tmp/helloworld
-      owner: foo
-      group: foo
+      owner: root
+      group: root
       mode: 0644
       state: touch
     
