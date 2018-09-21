@@ -11,7 +11,7 @@
       state: touch
     
 - name: Demo playbook to install Apache on linux VM from CF inventory
-  hosts: _managed_lxapp_apache
+  hosts: _managed_lx_app_apache
   tasks:
   - name: Install Apache
     yum:
