@@ -1,0 +1,8 @@
+---
+- name: Install insights agent
+  yum: 
+    name: redhat-access-insights
+    state: latest
+
+- name: register insights
+  command: "redhat-access-insights --register"
