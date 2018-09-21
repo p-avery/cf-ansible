@@ -1,0 +1,16 @@
+---
+- name: Standard Settings
+  hosts: _managed_os_lx
+  roles:
+    - satellite_client
+    - common
+
+- name: register RedHat Insights
+  hosts: _managed_insights_true
+  roles:
+    - insights
+
+- name: Apache
+  hosts: _managed_lx_app_apache
+  roles:
+    - apache
