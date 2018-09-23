@@ -1,0 +1,73 @@
+---
+- name: RHEL Template settings
+  hosts: all
+  tasks:
+  - name: yum Update
+    yum:
+      name: '*'
+      state: latest
+
+  - name: Install packages for vmware
+    yum:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - wget
+      - perl
+      - net-tools
+      - bzip2
+      - mlocate
+      - gcc
+      - open-vm-tools
+    tags: vmware
+
+  - name: clean out yum
+    command: yum clean all
+    args:
+      warn: no
+
+  - name: Unregister from RedHat Subscription if RHEL Box
+    redhat_subscription:
+      state: absent
+    when: ansible_distribution == 'Red Hat Enterprise Linux'
+    
+  - name: reset machine-id
+    shell: "echo > /etc/machine-id"
+
+  - name: clear out ssh keys and configs
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - /etc/ssh/ssh_host_rm -rf /root/.ssh/
+      - /root/anaconda-ks.cfg
+      - /root/.bash_history
+
+  - name: unset HISTFILE
+    shell: unset HISTFILE
+
+  - name: remove old logs
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - /var/log/boot.log
+      - /var/log/cron
+      - /var/log/dmesg
+      - /var/log/grubby
+      - /var/log/lastlog
+      - /var/log/maillog
+      - /var/log/messages
+      - /var/log/secure
+      - /var/log/spooler
+      - /var/log/tallylog
+      - /var/log/wpa_supplicant.log
+      - /var/log/wtmp
+      - /var/log/yum.log
+      - /var/log/audit/audit.log
+      - /var/log/ovirt-guest-agent/ovirt-guest-agent.log
+      - /var/log/tuned/tuned.log
+
+  - name: sys-unconfig and poweroff
+    shell: sys-unconfig
+    ignore_errors: true
