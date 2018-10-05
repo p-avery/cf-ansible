@@ -1,0 +1,3 @@
+[cf] # only put in hosts that need vddk i.e worker nodes
+x.x.x.x
+x.x.x.x
