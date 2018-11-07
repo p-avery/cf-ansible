@@ -5,9 +5,3 @@
     state: latest
   notify: apache service
   
-- name: open firewall traffic for http
-  firewalld:
-    service: http
-    permanent: true
-    state: enabled
-    immediate: yes
